@@ -53,6 +53,7 @@ $config = [
         */
     ],
     'params' => $params,
+    'name' => 'Holiday Guide',
 ];
 
 if (YII_ENV_DEV) {
