@@ -12,7 +12,6 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     public $role;
 
 
-
     /**
      * {@inheritdoc}
      */
@@ -42,7 +41,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public static function findByUsername($username)
     {
-        $emp =  Employee::find()->where(['username' => $username])->one();
+        $emp = Employee::find()->where(['username' => $username])->one();
 
         return new static(Employee::loadToArray($emp));
 
@@ -83,7 +82,21 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
         return $this->password === md5($password);
     }
 
-    public function isManager(){
-        return $this->role===2;
+    /**
+     * Check if user is Manager
+     * @return bool
+     */
+    public function isManager()
+    {
+        return $this->isAdmin() || $this->role === Role::findByName('manager')->emp_role_pk;
+    }
+
+    /**
+     * Check if user is admin
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return $this->role == Role::findByName('admin')->emp_role_pk;
     }
 }

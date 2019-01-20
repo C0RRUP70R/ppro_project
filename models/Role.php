@@ -18,4 +18,12 @@ class Role extends ActiveRecord
         return 'emp_role';
     }
 
+    public static function getRole($pk){
+        return self::find()->where($pk)->one();
+    }
+
+    public static function findByName($name){
+        return self::find()->where(['role_name' => $name])->one();
+    }
+
 }

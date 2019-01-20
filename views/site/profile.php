@@ -17,3 +17,7 @@ echo '<h2>Profile</h2>';
 //    'dataProvider' => (new \app\models\EmployeeInfo())->getDataProvider()
 //])
 //;
+
+//echo '<pre>';
+//print_r(Yii::$app->user->getIdentity()->isAdmin());
+//echo '</pre>';

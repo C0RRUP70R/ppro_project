@@ -13,13 +13,15 @@ VALUES ('Support', null, 'HK'),
 INSERT INTO emp_role (role_name, rule)
 VALUES ('employee', 10),
   ('manager', 100),
-  ('director', 1000);
+  ('director', 1000),
+  ('admin', 10000);
 
 INSERT INTO employee (username, password, created, last_login, department_pk, job_id, role_id)
 VALUES ('john.doe', md5('heslo'), now(), null, 1, 'manager', 2),
   ('joe.turner', md5('heslo'), now(), null, 1, 'programmer', 1),
   ('abel.tuter', md5('heslo'), now(), null, 1, 'support', 1),
-  ('ellie.johnson', md5('heslo'), now(), null, 1, 'programmer', 1);
+  ('ellie.johnson', md5('heslo'), now(), null, 1, 'programmer', 1),
+  ('lubomir.mrtvy', md5('admin'), now(), null, null, 'admin', 4);
 
 UPDATE department
 SET manager_id = 1
@@ -29,7 +31,8 @@ INSERT INTO employee_info (employee_pk, first_name, last_name, address, birth_da
 VALUES (1, 'John', 'Doe', 'HK', '01.02.1980' :: DATE, '123456789'),
   (2, 'Joe', 'Turner', 'HK', '25.03.1975' :: DATE, '123456789'),
   (3, 'Abel', 'Tuter', 'HK', '11.12.1985' :: DATE, '123456789'),
-  (4, 'Ellie', 'Johnson', 'HK', '01.03.1990' :: DATE, '123456789');
+  (4, 'Ellie', 'Johnson', 'HK', '01.03.1990' :: DATE, '123456789'),
+  (5, 'Lubomír', 'Mrtvý', 'HK', '9.1.1993'::DATE, '123456789');
 
 INSERT INTO holiday_type (holiday_type)
 VALUES ('holiday'),
