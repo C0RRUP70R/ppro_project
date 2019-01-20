@@ -55,8 +55,11 @@ CREATE TABLE holiday_type (
 
 CREATE TABLE holiday_allowance (
   holiday_allowance_pk SERIAL PRIMARY KEY,
+  employee_pk          INTEGER NOT NULL REFERENCES employee (employee_pk)
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT,
   year                 TEXT,
-  holiday_type         TEXT NOT NULL REFERENCES holiday_type (holiday_type)
+  holiday_type         TEXT    NOT NULL REFERENCES holiday_type (holiday_type)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
   total                NUMERIC(3, 1) DEFAULT 25

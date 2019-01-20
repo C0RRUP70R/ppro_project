@@ -4,50 +4,57 @@
 
 $this->title = Yii::$app->name;
 ?>
-<div class="site-index">
-
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
-
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
-        </div>
-
+<div class="row">
+    <div class="col-lg-12">
+        <?php
+        if (empty($departments)) {
+            echo '<H2>Holiday Guide - please log in</H2>';
+        } else {
+            echo '<h2>All absences</h2>';
+            foreach ($departments as $department) {
+                echo "<h3>$department->department_name</h3>";
+                echo \yii\grid\GridView::widget([
+                    'dataProvider' => \app\components\AuxFunc::getDataProvider(
+                        $department->getApprovedRequests()
+                    ),
+                    'columns' => [
+                        ['attribute' => 'employee.employeeInfo.first_name',
+                            'label' => 'Name',
+                            'headerOptions' => ['style' => 'width:15%']
+                        ],
+                        ['attribute' => 'employee.employeeInfo.last_name',
+                            'label' => 'Last name',
+                            'headerOptions' => ['style' => 'width:15%']
+                        ],
+                        ['attribute' => 'holiday_type',
+                            'label' => 'Type',
+                            'headerOptions' => ['style' => 'width:10%']
+                        ],
+                        ['attribute' => 'start_date',
+                            'label' => 'Start',
+                            'headerOptions' => ['style' => 'width:10%']
+                        ],
+                        ['attribute' => 'end_date',
+                            'label' => 'End',
+                            'headerOptions' => ['style' => 'width:10%']
+                        ],
+                        ['attribute' => 'duration',
+                            'label' => 'Duration (days)',
+                            'headerOptions' => ['style' => 'width:10%']
+                        ],
+                        ['attribute' => 'approved_by',
+                            'label' => 'Approved by',
+                            'value' => function ($model) {
+                                $info = $model->approver->employeeInfo;
+                                return $info->first_name . ' ' . $info->last_name;
+                            },
+                            'headerOptions' => ['style' => 'width:14%']
+                        ],
+                    ],
+                    'layout' => "{items}\n{summary}\n{pager}"
+                ]);
+            }
+        }
+        ?>
     </div>
 </div>

@@ -9,6 +9,7 @@
 namespace app\components;
 
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
 
 class AuxFunc
@@ -37,5 +38,17 @@ class AuxFunc
                 . '</li>';
         }
         return $items;
+    }
+
+    public static function getDataProvider($query)
+    {
+        $provider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+
+        return $provider;
     }
 }

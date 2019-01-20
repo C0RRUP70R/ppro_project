@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\Department;
+use app\models\Employee;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -61,7 +63,16 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        if(Yii::$app->user->isGuest){
+            return $this->render('index');
+        }
+        if (!Yii::$app->user->getIdentity()->isManager()) {
+            $employee = Employee::findOne(Yii::$app->user->getId());
+            $departments = [$employee->department];
+        } else {
+            $departments = Department::find()->all();
+        }
+        return $this->render('index', ['departments' => $departments]);
     }
 
     /**
@@ -101,7 +112,8 @@ class SiteController extends Controller
     /**
      * @return string
      */
-    public function actionNewRequest(){
+    public function actionNewRequest()
+    {
 
         return $this->render('new_request');
     }
@@ -109,20 +121,23 @@ class SiteController extends Controller
     /**
      * @return string
      */
-    public function actionMyRequests(){
-
-        return $this->render('my_requests');
+    public function actionMyRequests()
+    {
+        $employee = Employee::findOne(Yii::$app->user->getId());
+        return $this->render('my_requests', ['employee' => $employee]);
     }
 
     /**
      * @return string
      */
-    public function actionApprovalRequests(){
+    public function actionApprovalRequests()
+    {
 
         return $this->render('approval_requests');
     }
 
-    public function actionProfile(){
+    public function actionProfile()
+    {
 
         return $this->render('profile');
     }

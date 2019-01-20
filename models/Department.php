@@ -13,5 +13,16 @@ use yii\db\ActiveRecord;
 
 class Department extends ActiveRecord
 {
+    public function getEmployees()
+    {
+        return $this->hasMany(Employee::className(), ['department_pk' => 'department_pk']);
+    }
 
+    public function getApprovedRequests()
+    {
+        return $this->hasMany(HolidayRequest::className(), ['employee_pk' => 'employee_pk'])
+            ->via('employees')
+            ->where('approved = :approved', ['approved' => true])
+            ->orderBy('holiday_request_pk');;
+    }
 }
