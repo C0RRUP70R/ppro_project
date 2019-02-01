@@ -24,35 +24,55 @@ class Employee extends ActiveRecord
         return 'employee';
     }
 
-    public function getRequests(){
+    public function getRequests()
+    {
         return $this->hasMany(HolidayRequest::className(), ['employee_pk' => 'employee_pk']);
     }
 
-    public function getApprovedRequests(){
+    public function getApprovedRequests()
+    {
         return $this->hasMany(HolidayRequest::className(), ['employee_pk' => 'employee_pk'])
-            ->where('approved = :approved', ['approved' =>true])
+            ->where('approved = :approved', ['approved' => true])
             ->orderBy('holiday_request_pk');
     }
 
-    public function getUnapprovedRequests(){
+    public function getUnapprovedRequests()
+    {
         return $this->hasMany(HolidayRequest::className(), ['employee_pk' => 'employee_pk'])
-            ->where('approved = :approved', ['approved' =>false])
+            ->where('approved = :approved', ['approved' => false])
             ->orderBy('holiday_request_pk');
     }
 
-    public function getEmployeeInfo(){
+    public function getEmployeeInfo()
+    {
         return $this->hasOne(EmployeeInfo::className(), ['employee_pk' => 'employee_pk']);
     }
 
-    public function getDepartment(){
+    public function getDepartment()
+    {
         return $this->hasOne(Department::className(), ['department_pk' => 'department_pk']);
     }
 
-    public static function loadToArray($emp){
+    public function getMyDepartments(){
+        return $this->hasMany(Department::className(), ['manager_id' => 'employee_pk']);
+    }
 
-        if($emp){
+    public function getAllowances()
+    {
+        return $this->hasMany(HolidayAllowance::className(), ['employee_pk' => 'employee_pk']);
+    }
+
+    public function getRole()
+    {
+        return $this->hasOne(Role::className(), ['emp_role_pk' => 'role_id']);
+    }
+
+    public static function loadToArray($emp)
+    {
+
+        if ($emp) {
             $user = $emp->attributes;
-        } else{
+        } else {
             return null;
         }
 
@@ -60,8 +80,8 @@ class Employee extends ActiveRecord
             'id' => $user['employee_pk'],
             'username' => $user['username'],
             'password' => $user['password'],
-            'authKey' => 'key'.$user['password'],
-            'accessToken' => 'token'.$user['password'],
+            'authKey' => 'key' . $user['password'],
+            'accessToken' => 'token' . $user['password'],
             'role' => $user['role_id']
         ];
         return $user_arr;

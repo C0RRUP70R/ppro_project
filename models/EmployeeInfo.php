@@ -19,6 +19,10 @@ class EmployeeInfo extends ActiveRecord
         return 'employee_info';
     }
 
+    public function getEmployee(){
+        return $this->hasOne(Employee::className(), ['employee_pk' => 'employee_pk']);
+    }
+
     public function getDataProvider($id = null)
     {
         if ($id) {

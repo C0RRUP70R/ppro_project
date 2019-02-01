@@ -133,8 +133,8 @@ class SiteController extends Controller
      */
     public function actionApprovalRequests()
     {
-
-        return $this->render('approval_requests');
+        $employee = Employee::findOne(Yii::$app->user->getId());
+        return $this->render('approval_requests', ['employee' => $employee]);
     }
 
     public function actionProfile()
@@ -144,6 +144,14 @@ class SiteController extends Controller
         $department = Department::findOne($employee->department_pk);
 
         return $this->render('profile', ['employee' => $employee, 'employee_info' => $employee_info]);
+    }
+
+    public function actionApproveRequest($request){
+
+    }
+
+    public function actionCancellRequest($request){
+
     }
 
 }

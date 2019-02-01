@@ -18,12 +18,19 @@ class HolidayRequest extends ActiveRecord
         return 'holiday_request';
     }
 
-    public function getEmployee(){
+    public function getEmployee()
+    {
         return $this->hasOne(Employee::className(), ['employee_pk' => 'employee_pk']);
     }
 
-    public function getApprover(){
+    public function getApprover()
+    {
         return $this->hasOne(Employee::className(), ['employee_pk' => 'approved_by']);
+    }
+
+    public function getCanceller()
+    {
+        return $this->hasOne(Employee::className(), ['employee_pk' => 'cancelled_by']);
     }
 
 }

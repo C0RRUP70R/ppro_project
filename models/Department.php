@@ -23,6 +23,14 @@ class Department extends ActiveRecord
         return $this->hasMany(HolidayRequest::className(), ['employee_pk' => 'employee_pk'])
             ->via('employees')
             ->where('approved = :approved', ['approved' => true])
-            ->orderBy('holiday_request_pk');;
+            ->orderBy('holiday_request_pk');
+    }
+
+    public function getUnapprovedRequests()
+    {
+        return $this->hasMany(HolidayRequest::className(), ['employee_pk' => 'employee_pk'])
+            ->via('employees')
+            ->where('approved = :approved', ['approved' => false])
+            ->orderBy('holiday_request_pk');
     }
 }

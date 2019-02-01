@@ -18,4 +18,8 @@ class HolidayAllowance extends ActiveRecord
         return "holiday_allowance";
     }
 
+    public function getEmployee(){
+        return $this->hasOne(Employee::className(), ['employee_pk' => 'employee_pk']);
+    }
+
 }
