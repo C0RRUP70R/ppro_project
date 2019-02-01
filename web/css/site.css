@@ -113,3 +113,18 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+.user-details, .login-details {
+   background-color: whitesmoke;
+}
+
+.user-details h3, .login-details h3 {
+    color: #2e6da4;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: large;
+}
+
+.edit-btn {
+    float: right;
+ }

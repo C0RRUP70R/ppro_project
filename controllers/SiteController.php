@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Department;
 use app\models\Employee;
+use app\models\EmployeeInfo;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -138,8 +139,11 @@ class SiteController extends Controller
 
     public function actionProfile()
     {
+        $employee = Employee::findOne(Yii::$app->user->id);
+        $employee_info = EmployeeInfo::findOne(Yii::$app->user->id);
+        $department = Department::findOne($employee->department_pk);
 
-        return $this->render('profile');
+        return $this->render('profile', ['employee' => $employee, 'employee_info' => $employee_info]);
     }
 
 }
