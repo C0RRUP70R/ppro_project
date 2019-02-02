@@ -24,8 +24,7 @@ VALUES ('john.doe', md5('heslo'), now(), null, 1, 'manager', 2),
   ('lubomir.mrtvy', md5('admin'), now(), null, null, 'admin', 4);
 
 UPDATE department
-SET manager_id = 1
-WHERE department_name = 'Support';
+SET manager_id = 1;
 
 INSERT INTO employee_info (employee_pk, first_name, last_name, address, birth_date, phone)
 VALUES (1, 'John', 'Doe', 'HK', '01.02.1980' :: DATE, '123456789'),

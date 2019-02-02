@@ -5,6 +5,8 @@ namespace app\controllers;
 use app\models\Department;
 use app\models\Employee;
 use app\models\EmployeeInfo;
+use app\models\HolidayType;
+use app\models\NewRequestForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -115,8 +117,17 @@ class SiteController extends Controller
      */
     public function actionNewRequest()
     {
-
-        return $this->render('new_request');
+        if (isset($_POST['NewRequestForm'])) {
+            $model = new NewRequestForm($_POST['NewRequestForm']);
+            if($model->createRequest()){
+                \Yii::$app->getSession()->setFlash('success', 'Holiday request successfully commited');
+            } else {
+                \Yii::$app->getSession()->setFlash('error', 'Holiday request not created');
+            }
+        }
+        $model = new NewRequestForm();
+        $types = HolidayType::allAsArray();
+        return $this->render('new_request', ['model' => $model, 'types' => $types]);
     }
 
     /**
