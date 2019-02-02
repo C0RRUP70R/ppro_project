@@ -43,6 +43,13 @@ class Employee extends ActiveRecord
             ->orderBy('holiday_request_pk');
     }
 
+    public function getValidRequests()
+    {
+        return $this->hasMany(HolidayRequest::className(), ['employee_pk' => 'employee_pk'])
+            ->where("cancelled = :cancelled AND to_char(start_date, 'YYYY') = to_char(now(), 'YYYY')", ['cancelled' => false])
+            ->orderBy('holiday_request_pk');
+    }
+
     public function getEmployeeInfo()
     {
         return $this->hasOne(EmployeeInfo::className(), ['employee_pk' => 'employee_pk']);
@@ -53,7 +60,8 @@ class Employee extends ActiveRecord
         return $this->hasOne(Department::className(), ['department_pk' => 'department_pk']);
     }
 
-    public function getMyDepartments(){
+    public function getMyDepartments()
+    {
         return $this->hasMany(Department::className(), ['manager_id' => 'employee_pk']);
     }
 
