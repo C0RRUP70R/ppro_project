@@ -162,18 +162,26 @@ class SiteController extends Controller
     {
         $request_model = HolidayRequest::findOne($request);
         if (!empty($request_model)) {
-            $request_model->approve();
+            if($request_model->approve()){
+                \Yii::$app->getSession()->setFlash('success', 'Request approved');
+            } else {
+                \Yii::$app->getSession()->setFlash('error', 'Request not approved');
+            }
         }
-        $this->goBack();
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionCancelRequest($request)
     {
         $request_model = HolidayRequest::findOne($request);
         if (!empty($request_model)) {
-            $request_model->cancel();
+            if($request_model->cancel()){
+                \Yii::$app->getSession()->setFlash('success', 'Request cancelled');
+            } else {
+                \Yii::$app->getSession()->setFlash('error', 'Request not cancelled');
+            }
         }
-        $this->goBack();
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionChangePassword()

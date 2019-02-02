@@ -48,8 +48,8 @@ echo '<h2>Approval Requests</h2>';
                             'label' => 'Duration (days)',
                             'headerOptions' => ['style' => 'width:10%']
                         ],
-                        ['attribute' => 'approved_by',
-                            'label' => 'Approve',
+                        ['attribute' => 'action',
+                            'label' => 'Action',
                             'format' => 'html',
                             'value' => function ($model) {
                                 $str = '<span>';

@@ -43,6 +43,7 @@ class HolidayRequest extends ActiveRecord
                 return $this->save();
             }
         }
+        return false;
     }
 
     public function cancel() {
@@ -55,6 +56,7 @@ class HolidayRequest extends ActiveRecord
             $this->cancelled_by = $approver;
             return $this->save();
         }
+        return false;
     }
 
 }

@@ -15,7 +15,9 @@ echo '<h2>New Request</h2>';
     <div class="col-lg-5">
 
         <?php
-        Yii::$app->session->getFlash('success');
+        /*
+        Only for demonstration, counting weekends as workdays
+        */
         $form = ActiveForm::begin([
             'id' => 'new-request',
         ]); ?>
