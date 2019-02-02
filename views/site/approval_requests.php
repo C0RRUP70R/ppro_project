@@ -53,8 +53,8 @@ echo '<h2>Approval Requests</h2>';
                             'format' => 'html',
                             'value' => function ($model) {
                                 $str = '<span>';
-                                $str .= '<a href="?r=site%2Fapprove-request&request=1" class="glyphicon glyphicon-check" style="margin-left: 15px"></a>';
-                                $str .= '<a href="?r=site%2Fcancel-request&request=1" class="glyphicon glyphicon-erase"style="margin-left: 15px"></a>';
+                                $str .= '<a href="?r=site%2Fapprove-request&request='.$model->holiday_request_pk.'" class="glyphicon glyphicon-check" style="margin-left: 15px"></a>';
+                                $str .= '<a href="?r=site%2Fcancel-request&request='.$model->holiday_request_pk.'" class="glyphicon glyphicon-erase"style="margin-left: 15px"></a>';
                                 $str .= '</span>';
                                 return $str;
                             },

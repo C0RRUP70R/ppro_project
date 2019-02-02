@@ -48,6 +48,17 @@ use app\models\Employee;
                 },
                 'headerOptions' => ['style' => 'width:14%']
             ],
+            ['attribute' => 'action',
+                'label' => 'Action',
+                'format' => 'html',
+                'value' => function ($model) {
+                    $str = '<span>';
+                    $str .= '<a href="?r=site%2Fcancel-request&request='.$model->holiday_request_pk.'" class="glyphicon glyphicon-erase"style="margin-left: 15px"></a>';
+                    $str .= '</span>';
+                    return $str;
+                },
+                'headerOptions' => ['style' => 'width:5%']
+            ],
         ],
         'layout' => "{items}\n{summary}\n{pager}",
     ]
@@ -91,6 +102,17 @@ use app\models\Employee;
                     }
                 },
                 'headerOptions' => ['style' => 'width:14%']
+            ],
+            ['attribute' => 'action',
+                'label' => 'Action',
+                'format' => 'html',
+                'value' => function ($model) {
+                    $str = '<span>';
+                    $str .= '<a href="?r=site%2Fcancel-request&request='.$model->holiday_request_pk.'" class="glyphicon glyphicon-erase"style="margin-left: 15px"></a>';
+                    $str .= '</span>';
+                    return $str;
+                },
+                'headerOptions' => ['style' => 'width:5%']
             ],
         ],
         'layout' => "{items}\n{summary}\n{pager}",

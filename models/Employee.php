@@ -32,14 +32,14 @@ class Employee extends ActiveRecord
     public function getApprovedRequests()
     {
         return $this->hasMany(HolidayRequest::className(), ['employee_pk' => 'employee_pk'])
-            ->where('approved = :approved', ['approved' => true])
+            ->where('approved = :approved AND cancelled =:cancelled', ['approved' => true, 'cancelled' => false])
             ->orderBy('holiday_request_pk');
     }
 
     public function getUnapprovedRequests()
     {
         return $this->hasMany(HolidayRequest::className(), ['employee_pk' => 'employee_pk'])
-            ->where('approved = :approved', ['approved' => false])
+            ->where('approved = :approved AND cancelled =:cancelled', ['approved' => false, 'cancelled' => false])
             ->orderBy('holiday_request_pk');
     }
 

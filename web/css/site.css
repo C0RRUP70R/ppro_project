@@ -128,3 +128,7 @@ a.desc:after {
 .edit-btn {
     float: right;
  }
+
+#change_pass, #show_pass {
+    margin-bottom: 25px;
+}

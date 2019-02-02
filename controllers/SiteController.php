@@ -2,12 +2,15 @@
 
 namespace app\controllers;
 
+use app\models\ChangePasswordForm;
 use app\models\Department;
 use app\models\Employee;
 use app\models\EmployeeInfo;
+use app\models\HolidayRequest;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\Request;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
@@ -64,8 +67,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        if(Yii::$app->user->isGuest){
-            return $this->render('index');
+        if (Yii::$app->user->isGuest) {
+            return $this->render('index', ['departments' => []]);
         }
         if (!Yii::$app->user->getIdentity()->isManager()) {
             $employee = Employee::findOne(Yii::$app->user->getId());
@@ -140,18 +143,43 @@ class SiteController extends Controller
     public function actionProfile()
     {
         $employee = Employee::findOne(Yii::$app->user->id);
-        $employee_info = EmployeeInfo::findOne(Yii::$app->user->id);
-        $department = Department::findOne($employee->department_pk);
 
-        return $this->render('profile', ['employee' => $employee, 'employee_info' => $employee_info]);
+        return $this->render('profile', ['employee' => $employee]);
     }
 
-    public function actionApproveRequest($request){
-
+    public function actionApproveRequest($request)
+    {
+        $request_model = HolidayRequest::findOne($request);
+        if (!empty($request_model)) {
+            $request_model->approve();
+        }
+        $this->goBack();
     }
 
-    public function actionCancellRequest($request){
+    public function actionCancelRequest($request)
+    {
+        $request_model = HolidayRequest::findOne($request);
+        if (!empty($request_model)) {
+            $request_model->cancel();
+        }
+        $this->goBack();
+    }
 
+    public function actionChangePassword()
+    {
+
+        if (isset($_POST['ChangePasswordForm'])) {
+            $model = new ChangePasswordForm($_POST['ChangePasswordForm']);
+            if ($model->checkAndChange()) {
+                \Yii::$app->getSession()->setFlash('success', 'Password was successfully changed.');
+            } else {
+                \Yii::$app->getSession()->setFlash('error', 'Error occurred during change password.');
+            }
+
+            return $this->redirect('?r=site%2Fprofile');
+        }
+        $model = new ChangePasswordForm();
+        return $this->render('change_password', ['model' => $model]);
     }
 
 }

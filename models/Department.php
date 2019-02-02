@@ -22,7 +22,7 @@ class Department extends ActiveRecord
     {
         return $this->hasMany(HolidayRequest::className(), ['employee_pk' => 'employee_pk'])
             ->via('employees')
-            ->where('approved = :approved', ['approved' => true])
+            ->where('approved = :approved AND cancelled =:cancelled', ['approved' => true, 'cancelled' => false])
             ->orderBy('holiday_request_pk');
     }
 
@@ -30,7 +30,7 @@ class Department extends ActiveRecord
     {
         return $this->hasMany(HolidayRequest::className(), ['employee_pk' => 'employee_pk'])
             ->via('employees')
-            ->where('approved = :approved', ['approved' => false])
+            ->where('approved = :approved AND cancelled =:cancelled', ['approved' => false, 'cancelled' => false])
             ->orderBy('holiday_request_pk');
     }
 }

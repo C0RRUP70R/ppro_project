@@ -33,4 +33,28 @@ class HolidayRequest extends ActiveRecord
         return $this->hasOne(Employee::className(), ['employee_pk' => 'cancelled_by']);
     }
 
+    public function approve() {
+        // only manager of requestor can approve
+        $approver = \Yii::$app->user->getIdentity()->getId();
+        if ($this->employee->department->manager_id == $approver) {
+            if (!$this->cancelled) {
+                $this->approved = true;
+                $this->approved_by = $approver;
+                return $this->save();
+            }
+        }
+    }
+
+    public function cancel() {
+        // only requestor or manager of requestor can cancel
+        $approver = \Yii::$app->user->getIdentity()->getId();
+        $manager = $this->employee->department->manager_id;
+
+        if ($this->employee_pk == $approver || $manager == $approver) {
+            $this->cancelled = true;
+            $this->cancelled_by = $approver;
+            return $this->save();
+        }
+    }
+
 }

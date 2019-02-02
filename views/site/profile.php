@@ -8,36 +8,19 @@
 
 /**
  * @var $employee \app\models\Employee
- * @var $employee_info \app\models\EmployeeInfo
  */
 
 echo '<h2>Profile</h2>';
-
-//echo '<pre>';
-//foreach (\app\models\EmployeeInfo::find()->all() as $item)
-//    print_r($item->attributes);
-//echo '</pre>';
-//
-//echo \yii\grid\GridView::widget([
-//    'dataProvider' => (new \app\models\EmployeeInfo())->getDataProvider()
-//])
-//;
-
-//echo '<pre>';
-//print_r(Yii::$app->user->getIdentity()->isAdmin());
-//echo '</pre>';
-
-//echo "<h3>Personal info</h3>";
-//echo "<h4>$employee->username</h4>";
-//echo "<h4>$employee->username</h4>";
-
-
+Yii::$app->session->getFlash('error');
 ?>
+
+
 
 
 <div class="row">
 
     <div class="col-lg-5">
+
         <div class="row user-details">
             <div class="col-lg-12">
                 <h3>User details</h3>
@@ -46,7 +29,7 @@ echo '<h2>Profile</h2>';
                         <b>First name:</b>
                     </div>
                     <div class="col-lg-3">
-                        <?= $employee_info->first_name ?>
+                        <?= $employee->employeeInfo->first_name ?>
                     </div>
                 </div>
                 <div class="row help-block">
@@ -54,7 +37,7 @@ echo '<h2>Profile</h2>';
                         <b>Last name:</b>
                     </div>
                     <div class="col-lg-3">
-                        <?= $employee_info->last_name ?>
+                        <?= $employee->employeeInfo->last_name ?>
                     </div>
                 </div>
                 <div class="row help-block">
@@ -62,7 +45,7 @@ echo '<h2>Profile</h2>';
                         <b>Birth date:</b>
                     </div>
                     <div class="col-lg-3">
-                        <?= $employee_info->birth_date ?>
+                        <?= $employee->employeeInfo->birth_date ?>
                     </div>
                 </div>
                 <div class="row help-block">
@@ -70,7 +53,15 @@ echo '<h2>Profile</h2>';
                         <b>Address:</b>
                     </div>
                     <div class="col-lg-3">
-                        <?= $employee_info->address ?>
+                        <?= $employee->employeeInfo->address ?>
+                    </div>
+                </div>
+                <div class="row help-block">
+                    <div class="col-lg-3">
+                        <b>Job title:</b>
+                    </div>
+                    <div class="col-lg-3">
+                        <?= $employee->job_id ?>
                     </div>
                 </div>
             </div>
@@ -83,6 +74,7 @@ echo '<h2>Profile</h2>';
 
     <div class="col-lg-5">
         <div class="row login-details">
+            <div class="col-lg-12">
             <h3>Login details</h3>
             <div class="row help-block">
                 <div class="col-lg-3">
@@ -100,9 +92,9 @@ echo '<h2>Profile</h2>';
                     <?= $employee->last_login ?>
                 </div>
             </div>
-
+        <a href="?r=site%2Fchange-password" type="button" id="change_pass" class="btn btn-primary edit-btn">Change password</a>
+            </div>
         </div>
-        <button type="button" class="btn btn-primary edit-btn">Edit password</button>
     </div>
 
 </div>
