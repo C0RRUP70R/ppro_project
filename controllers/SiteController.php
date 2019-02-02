@@ -10,6 +10,8 @@ use app\models\HolidayRequest;
 use app\models\HolidayType;
 use app\models\NewRequestForm;
 use Yii;
+use yii\base\InvalidConfigException;
+use yii\di\NotInstantiableException;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Request;
@@ -122,7 +124,7 @@ class SiteController extends Controller
     {
         if (isset($_POST['NewRequestForm'])) {
             $model = new NewRequestForm($_POST['NewRequestForm']);
-            if($model->createRequest()){
+            if ($model->createRequest()) {
                 \Yii::$app->getSession()->setFlash('success', 'Holiday request successfully commited');
             } else {
                 \Yii::$app->getSession()->setFlash('error', 'Holiday request not created');
@@ -162,10 +164,15 @@ class SiteController extends Controller
     {
         $request_model = HolidayRequest::findOne($request);
         if (!empty($request_model)) {
-            if($request_model->approve()){
-                \Yii::$app->getSession()->setFlash('success', 'Request approved');
-            } else {
-                \Yii::$app->getSession()->setFlash('error', 'Request not approved');
+            try {
+                //  dependency injection
+                if (Yii::$container->invoke([$request_model, 'approve'])) {
+                    \Yii::$app->getSession()->setFlash('success', 'Request approved');
+                } else {
+                    \Yii::$app->getSession()->setFlash('error', 'Request not approved');
+                }
+            } catch (NotInstantiableException $e) {
+            } catch (InvalidConfigException $e) {
             }
         }
         return $this->redirect(Yii::$app->request->referrer);
@@ -175,10 +182,15 @@ class SiteController extends Controller
     {
         $request_model = HolidayRequest::findOne($request);
         if (!empty($request_model)) {
-            if($request_model->cancel()){
-                \Yii::$app->getSession()->setFlash('success', 'Request cancelled');
-            } else {
-                \Yii::$app->getSession()->setFlash('error', 'Request not cancelled');
+            try {
+                //  dependency injection
+                if (Yii::$container->invoke([$request_model, 'cancel'])) {
+                    \Yii::$app->getSession()->setFlash('success', 'Request cancelled');
+                } else {
+                    \Yii::$app->getSession()->setFlash('error', 'Request not cancelled');
+                }
+            } catch (NotInstantiableException $e) {
+            } catch (InvalidConfigException $e) {
             }
         }
         return $this->redirect(Yii::$app->request->referrer);
