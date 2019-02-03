@@ -62,7 +62,7 @@ CREATE TABLE holiday_allowance (
   holiday_type         TEXT    NOT NULL REFERENCES holiday_type (holiday_type)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
-  total                NUMERIC(3, 1) DEFAULT 25
+  total                NUMERIC(4, 1) DEFAULT 25
 );
 
 CREATE TABLE holiday_request (
@@ -75,7 +75,7 @@ CREATE TABLE holiday_request (
     ON UPDATE RESTRICT,
   start_date         DATE,
   end_date           DATE,
-  duration           NUMERIC(2, 1),
+  duration           NUMERIC(4, 1),
   approved           BOOLEAN DEFAULT FALSE,
   approved_by        INTEGER REFERENCES employee (employee_pk)
     ON DELETE RESTRICT
